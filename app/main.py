@@ -37,8 +37,17 @@ HISTORY_STAGING_DIR = PROJECT_ROOT / "data" / "processed" / "staging"
 HISTORY_STAGING_DIR.mkdir(parents=True, exist_ok=True)
 
 
+# Direct static asset fallback routes
+@app.get("/styles.css")
+def get_root_css():
+    return FileResponse(PROJECT_ROOT / "frontend" / "styles.css", media_type="text/css")
+
+@app.get("/app.js")
+def get_root_js():
+    return FileResponse(PROJECT_ROOT / "frontend" / "app.js", media_type="application/javascript")
+
 # Mount the static files (css, js) from the frontend directory
-app.mount("/static", StaticFiles(directory=PROJECT_ROOT / "frontend"), name="static")
+app.mount("/static", StaticFiles(directory=str(PROJECT_ROOT / "frontend")), name="static")
 
 
 @app.get("/")

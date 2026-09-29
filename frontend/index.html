@@ -6,6 +6,7 @@
     <title>PAIMANA Intelligence | Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Sidebar Navigation -->
@@ -465,5 +466,12 @@
     </main>
 
     <script src="/static/app.js"></script>
+    <script>
+        if (!window.__PAIMANA_LOADED__) {
+            const s = document.createElement('script');
+            s.src = 'app.js';
+            document.body.appendChild(s);
+        }
+    </script>
 </body>
 </html>

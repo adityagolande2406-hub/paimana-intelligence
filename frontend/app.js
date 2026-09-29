@@ -1,4 +1,9 @@
-document.addEventListener('DOMContentLoaded', () => {
+window.__PAIMANA_LOADED__ = true;
+
+function initPaimana() {
+    if (window.__PAIMANA_INITIALIZED__) return;
+    window.__PAIMANA_INITIALIZED__ = true;
+
     // DOM Elements
     const elements = {
         totalProjects: document.getElementById('val-total'),
@@ -9,6 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileMenuBtn: document.getElementById('mobile-menu-btn'),
         sidebar: document.getElementById('sidebar')
     };
+
+    if (window.location.protocol === 'file:' && elements.systemMessage) {
+        elements.systemMessage.className = 'system-message error';
+        elements.systemMessage.innerHTML = `⚠️ <strong>Local File Notice:</strong> You opened this page directly as a file. Please open your live <strong>Render URL</strong> or run <code>python run.py</code> to fetch data.`;
+    }
 
     // Mobile Menu Toggle
     if (elements.mobileMenuBtn && elements.sidebar) {
@@ -860,4 +870,10 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchSummaryData();
     fetchStatesData();
     fetchProjectsData();
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPaimana);
+} else {
+    initPaimana();
+}
