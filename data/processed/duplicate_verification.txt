@@ -1,0 +1,14 @@
+=== Duplicate Verification Report ===
+Total Repeated Project Codes: 209
+
+=== Analytical Values (Costs, Progress, Dates) ===
+Groups with IDENTICAL analytical values: 209
+Groups with CONFLICTING analytical values: 0
+-> Conclusion: The numerical and date data for repeated projects is perfectly consistent!
+
+=== Descriptive Values (Details, State, Page, Serial) ===
+Number of groups with DIFFERING values in specific columns:
+ - project_details: 209 groups differ
+ - state: 16 groups differ
+ - serial_number: 209 groups differ
+ - source_page: 209 groups differ

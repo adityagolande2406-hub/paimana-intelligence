@@ -1,0 +1,28 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+data/processed/staging/
+data/historical/historical_snapshots_backup.csv
+
+*.log
+.DS_Store
+
+.env
+.env.*
+!.env.example
+
+# Local and test-only data
+data/historical/*backup*.csv
+data/historical/*before_test*.csv
+data/historical_test/
+data/processed/test_upload.csv
+data/processed/validation_records.csv
+
+# Python environment
+.venv/
+
+scratch_check_costs.py
+PAIMANA-Intelligence-main/

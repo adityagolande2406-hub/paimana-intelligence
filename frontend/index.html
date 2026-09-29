@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAIMANA Intelligence | Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>PAIMANA</h2>
+            <span class="badge">PROTOTYPE</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" id="nav-dashboard">
+                <span class="icon">📊</span>
+                Dashboard
+            </a>
+            <a href="#" class="nav-item" id="nav-project-explorer">
+                <span class="icon">📁</span>
+                Project Explorer
+            </a>
+            <a href="#" class="nav-item" id="nav-analytics">
+                <span class="icon">📈</span>
+                Analytics
+            </a>
+            <a href="#" class="nav-item" id="nav-data-management">
+                <span class="icon">⚙️</span>
+                Data Management
+            </a>
+            <a href="#" class="nav-item">
+                <span class="icon">ℹ️</span>
+                About
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <p>SIH 2026 Prototype</p>
+            <p>Govt. Infrastructure</p>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
+                <h1>Intelligence Dashboard</h1>
+            </div>
+            <div class="header-right">
+                <div class="status-indicator">
+                    <span class="status-dot"></span> System Online
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="content-wrapper" id="dashboard-view">
+            
+            <!-- System Messages / Loading State -->
+            <div id="system-message" class="system-message loading">
+                Fetching live project data...
+            </div>
+
+            <!-- Metrics Grid -->
+            <section class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-title">Total Projects</div>
+                    <div class="metric-value" id="val-total">--</div>
+                    <div class="metric-trend">Monitored infrastructure</div>
+                </div>
+                
+                <div class="metric-card alert">
+                    <div class="metric-title">Schedule Extensions</div>
+                    <div class="metric-value" id="val-extensions">--</div>
+                    <div class="metric-trend">Projects facing delays</div>
+                </div>
+                
+                <div class="metric-card warning">
+                    <div class="metric-title">Low Progress (< 25%)</div>
+                    <div class="metric-value" id="val-low-progress">--</div>
+                    <div class="metric-trend">Require immediate attention</div>
+                </div>
+                
+                <div class="metric-card neutral">
+                    <div class="metric-title">Data Unavailable</div>
+                    <div class="metric-value" id="val-unavailable">--</div>
+                    <div class="metric-trend">Schedule baseline missing</div>
+                </div>
+            </section>
+
+            <!-- Projects Table Placeholder -->
+            <section class="table-section">
+                <div class="section-header" style="flex-wrap: wrap; gap: 1rem;">
+                    <h3>Recent Project Activity</h3>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <input type="text" id="search-input" placeholder="Search code or name..." style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.875rem;">
+                        <select id="state-select" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.875rem; background: white;">
+                            <option value="">All States</option>
+                        </select>
+                        <button class="btn-primary" id="btn-clear-filters" style="background: var(--text-secondary);">Clear</button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Project Code</th>
+                                <th>State</th>
+                                <th>Physical Progress</th>
+                                <th>Status</th>
+                                <th>Monitoring Explanation</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projects-table-body">
+                            <!-- Populated by JavaScript -->
+                            <tr>
+                                <td colspan="5" style="text-align: center; padding: 2rem;">Loading projects...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination-controls" style="padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color);">
+                    <div style="font-size: 0.875rem; color: var(--text-secondary);" id="pagination-info">Showing projects...</div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn-primary" id="btn-prev-page" style="background: var(--text-secondary); padding: 0.25rem 0.75rem;">Previous</button>
+                        <button class="btn-primary" id="btn-next-page" style="background: var(--text-secondary); padding: 0.25rem 0.75rem;">Next</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Project Detail View -->
+        <div class="content-wrapper" id="project-detail-view" style="display: none;">
+            <div class="section-header" style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                <button class="btn-primary" id="btn-back-to-projects" style="background: var(--text-secondary);">← Back to Projects</button>
+            </div>
+            
+            <div id="detail-system-message" class="system-message loading" style="display: none;">
+                Loading project details...
+            </div>
+            
+            <div id="project-detail-content" style="display: none;">
+                <div class="metric-card" style="margin-bottom: 2rem;">
+                    <h2 id="detail-project-name" style="margin-bottom: 0.5rem; color: var(--accent-navy);">--</h2>
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <span class="code-badge" id="detail-project-code">--</span>
+                        <span id="detail-state" style="color: var(--text-secondary); font-weight: 500;">--</span>
+                    </div>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card neutral">
+                        <div class="metric-title">Original Cost (Crore)</div>
+                        <div class="metric-value" id="detail-original-cost">--</div>
+                    </div>
+                    <div class="metric-card neutral">
+                        <div class="metric-title">Expenditure (Crore)</div>
+                        <div class="metric-value" id="detail-expenditure">--</div>
+                    </div>
+                    <div class="metric-card neutral">
+                        <div class="metric-title">Physical Progress</div>
+                        <div class="metric-value" id="detail-physical-progress">--</div>
+                    </div>
+                    <div class="metric-card neutral">
+                        <div class="metric-title">Schedule Extension</div>
+                        <div class="metric-value" id="detail-schedule-extension">--</div>
+                    </div>
+                </div>
+
+                <div class="metric-card" style="margin-top: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem; color: var(--accent-navy);">Monitoring Information</h3>
+                    <p style="margin-bottom: 0.5rem;"><strong>Classification:</strong> <span id="detail-classification" class="status-pill safe">--</span></p>
+                    <p><strong>Explanation:</strong> <span id="detail-explanation">--</span></p>
+                </div>
+                
+                <div class="metric-card" style="margin-top: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem; color: var(--accent-navy);">Risk Assessment</h3>
+                    <div id="risk-system-message" class="system-message loading" style="display: none; margin-bottom: 1rem;">
+                        Evaluating project risk...
+                    </div>
+                    <div id="risk-assessment-content">
+                        <div class="metrics-grid" style="margin-bottom: 1rem;">
+                            <div class="metric-card neutral" style="padding: 1rem;">
+                                <div class="metric-title" style="font-size: 0.75rem;">Schedule</div>
+                                <div id="risk-schedule" style="font-weight: 500; font-size: 0.9rem;">--</div>
+                            </div>
+                            <div class="metric-card neutral" style="padding: 1rem;">
+                                <div class="metric-title" style="font-size: 0.75rem;">Financial</div>
+                                <div id="risk-financial" style="font-weight: 500; font-size: 0.9rem;">--</div>
+                            </div>
+                            <div class="metric-card neutral" style="padding: 1rem;">
+                                <div class="metric-title" style="font-size: 0.75rem;">Progress</div>
+                                <div id="risk-progress" style="font-weight: 500; font-size: 0.9rem;">--</div>
+                            </div>
+                            <div class="metric-card neutral" style="padding: 1rem;">
+                                <div class="metric-title" style="font-size: 0.75rem;">Cross-Dimensional</div>
+                                <div id="risk-execution" style="font-weight: 500; font-size: 0.9rem; color: var(--status-alert);">--</div>
+                            </div>
+                        </div>
+                        <div style="background: var(--bg-primary); padding: 1rem; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom: 1rem;">
+                            <p style="margin-bottom: 0.5rem;"><strong>Data Quality Warnings:</strong></p>
+                            <ul id="risk-warnings" style="margin-left: 1.5rem; color: var(--status-warning); font-size: 0.9rem;">
+                                <li>None</li>
+                            </ul>
+                            <p style="margin-bottom: 0.5rem; margin-top: 1rem;"><strong>Supporting Evidence:</strong></p>
+                            <ul id="risk-evidence" style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                <li>--</li>
+                            </ul>
+                        </div>
+                        <p id="risk-limitations" style="font-size: 0.8rem; color: var(--text-secondary); font-style: italic;">--</p>
+                    </div>
+                </div>
+
+                <div class="metric-card" style="margin-top: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem; color: var(--accent-navy);">Historical Monitoring</h3>
+                    
+                    <div id="history-system-message" class="system-message loading" style="display: none; margin-bottom: 1rem;">
+                        Loading historical trends...
+                    </div>
+                    
+                    <div id="history-assessment-content">
+                        <div class="metrics-grid" style="margin-bottom: 1.5rem;">
+                            <div class="metric-card neutral" style="padding: 1rem;">
+                                <div class="metric-title" style="font-size: 0.75rem;">Observations</div>
+                                <div id="history-obs-count" style="font-weight: 500; font-size: 1.25rem; color: var(--accent-navy);">--</div>
+                            </div>
+                            <div class="metric-card neutral" style="padding: 1rem;">
+                                <div class="metric-title" style="font-size: 0.75rem;">Months Available</div>
+                                <div id="history-months" style="font-weight: 500; font-size: 0.9rem; margin-top: 0.25rem; overflow-wrap: break-word;">--</div>
+                            </div>
+                        </div>
+                        
+                        <div id="history-charts-container" style="display: none;">
+                            <div class="metrics-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                                <div class="metric-card neutral" style="height: auto; padding: 1.25rem;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--text-primary); font-size: 0.9rem;">Physical Progress Trend</h4>
+                                    <div id="chart-history-progress" class="bar-chart-container"></div>
+                                </div>
+                                
+                                <div class="metric-card neutral" style="height: auto; padding: 1.25rem;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--text-primary); font-size: 0.9rem;">Expenditure Trend (Crore)</h4>
+                                    <div id="chart-history-expenditure" class="bar-chart-container"></div>
+                                </div>
+                                
+                                <div class="metric-card neutral" style="height: auto; padding: 1.25rem;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--text-primary); font-size: 0.9rem;">Schedule Extension (Months)</h4>
+                                    <div id="chart-history-extension" class="bar-chart-container"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="history-empty-state" style="display: none; background: var(--bg-primary); padding: 1.5rem; border-radius: 6px; border: 1px dashed var(--border-color); text-align: center; color: var(--text-secondary);">
+                            Historical observations are not yet available. Import monthly project reports to view trends.
+                        </div>
+                    </div>
+                </div>
+                <div class="metric-card" style="margin-top: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem; color: var(--accent-navy);">Historical Intelligence</h3>
+                    
+                    <div id="analytics-system-message" class="system-message loading" style="display: none; margin-bottom: 1rem;">
+                        Analyzing historical trends...
+                    </div>
+                    
+                    <div id="analytics-content-container">
+                        <!-- Message & Status -->
+                        <div id="analytics-status-banner" style="display: none; padding: 1rem; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom: 1.5rem; background: var(--bg-primary);">
+                            <div style="font-weight: 500; margin-bottom: 0.25rem;" id="analytics-status"></div>
+                            <div style="font-size: 0.9rem; color: var(--text-secondary);" id="analytics-message"></div>
+                        </div>
+
+                        <!-- Metrics Grid -->
+                        <div id="analytics-metrics-grid" class="metrics-grid" style="display: none; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                            <div class="metric-card neutral" style="padding: 1rem;">
+                                <div class="metric-title" style="font-size: 0.75rem;">Progress Change</div>
+                                <div id="analytics-progress-change" style="font-weight: 500; font-size: 1.25rem;">--</div>
+                                <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.25rem;">Percentage Points</div>
+                            </div>
+                            <div class="metric-card neutral" style="padding: 1rem;">
+                                <div class="metric-title" style="font-size: 0.75rem;">Expenditure Change</div>
+                                <div id="analytics-exp-change" style="font-weight: 500; font-size: 1.25rem;">--</div>
+                                <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.25rem;" id="analytics-exp-pct">--</div>
+                            </div>
+                            <div class="metric-card neutral" style="padding: 1rem;">
+                                <div class="metric-title" style="font-size: 0.75rem;">Schedule Extension Change</div>
+                                <div id="analytics-ext-change" style="font-weight: 500; font-size: 1.25rem;">--</div>
+                                <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.25rem;">Months</div>
+                            </div>
+                        </div>
+
+                        <!-- Trend Indicators -->
+                        <div id="analytics-trend-container" style="display: none; background: var(--bg-primary); padding: 1rem; border-radius: 6px; border: 1px solid var(--border-color);">
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div>
+                                    <span style="font-weight: 600; font-size: 0.9rem;">Deterministic Trend:</span>
+                                    <span id="analytics-trend" style="margin-left: 0.5rem; font-weight: 500; padding: 0.1rem 0.5rem; border-radius: 12px; background: var(--gray-light); font-size: 0.85rem;">--</span>
+                                </div>
+                                <div>
+                                    <span style="font-weight: 600; font-size: 0.9rem;">Risk Movement:</span>
+                                    <span id="analytics-risk" style="margin-left: 0.5rem; font-weight: 500; padding: 0.1rem 0.5rem; border-radius: 12px; background: var(--gray-light); font-size: 0.85rem;">--</span>
+                                </div>
+                                <div style="font-size: 0.8rem; color: var(--text-secondary); font-style: italic; margin-top: 0.5rem;">
+                                    * Trends are calculated deterministically comparing the latest two historical observations.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics View -->
+        <div class="content-wrapper" id="analytics-view" style="display: none;">
+            <div class="section-header" style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                <button class="btn-primary" id="btn-analytics-back" style="background: var(--text-secondary);">← Back to Dashboard</button>
+                <h2 style="color: var(--accent-navy);">Project Analytics</h2>
+            </div>
+            
+            <div id="analytics-system-message" class="system-message loading" style="display: none;">
+                Loading analytics data...
+            </div>
+            
+            <div id="analytics-content" style="display: none;">
+                <div class="metrics-grid" style="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));">
+                    <!-- Progress Distribution -->
+                    <div class="metric-card neutral" style="height: auto;">
+                        <h3 style="margin-bottom: 1rem; color: var(--accent-navy);">Physical Progress Distribution</h3>
+                        <div id="chart-progress" class="bar-chart-container"></div>
+                    </div>
+                    
+                    <!-- Schedule Extensions -->
+                    <div class="metric-card alert" style="height: auto;">
+                        <h3 style="margin-bottom: 1rem; color: var(--accent-navy);">Schedule Extension Categories</h3>
+                        <div id="chart-extensions" class="bar-chart-container"></div>
+                    </div>
+                    
+                    <!-- Top States -->
+                    <div class="metric-card neutral" style="height: auto;">
+                        <h3 style="margin-bottom: 1rem; color: var(--accent-navy);">Top 10 States by Project Count</h3>
+                        <div id="chart-states" class="bar-chart-container"></div>
+                    </div>
+                    
+                    <!-- Monitoring Classifications -->
+                    <div class="metric-card warning" style="height: auto;">
+                        <h3 style="margin-bottom: 1rem; color: var(--accent-navy);">Monitoring Classifications</h3>
+                        <div id="chart-monitoring" class="bar-chart-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Management View -->
+        <div class="content-wrapper" id="data-management-view" style="display: none;">
+            <div class="section-header" style="margin-bottom: 1.5rem;">
+                <h2 style="color: var(--accent-navy);">Data Management</h2>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.25rem;">SIH Prototype Module - Upload structured CSV datasets to update the platform securely.</p>
+            </div>
+            
+            <div class="metrics-grid" style="grid-template-columns: 1fr;">
+                <div class="metric-card neutral" style="height: auto;">
+                    <h3 style="margin-bottom: 1rem; color: var(--accent-navy);">Upload New Dataset (CSV)</h3>
+                    <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+                        <input type="file" id="file-upload" accept=".csv" style="padding: 0.5rem; border: 1px dashed var(--border-color); border-radius: 6px; flex: 1;">
+                        <button class="btn-primary" id="btn-upload-preview">Preview & Validate</button>
+                    </div>
+                    
+                    <div id="upload-message" class="system-message" style="display: none;"></div>
+                    
+                    <div id="upload-preview-section" style="display: none; margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                        <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Data Preview (First 5 Rows)</h4>
+                        <div class="table-container" style="margin-bottom: 1.5rem;">
+                            <table class="data-table" id="preview-table">
+                                <thead>
+                                    <tr>
+                                        <th>Project Code</th>
+                                        <th>State</th>
+                                        <th>Progress</th>
+                                        <th>Monitoring Class</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="preview-table-body">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                            <button class="btn-primary" id="btn-upload-cancel" style="background: var(--text-secondary);">Cancel</button>
+                            <button class="btn-primary" id="btn-upload-confirm" style="background: var(--status-safe);">Confirm & Apply Update</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card neutral" style="height: auto; margin-top: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem; color: var(--accent-navy);">Historical Snapshots Upload</h3>
+                    <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+                        <input type="file" id="history-file-upload" accept=".csv" style="padding: 0.5rem; border: 1px dashed var(--border-color); border-radius: 6px; flex: 1;">
+                        <button class="btn-primary" id="btn-history-upload-preview">Preview History</button>
+                    </div>
+                    
+                    <div id="history-upload-message" class="system-message" style="display: none;"></div>
+                    
+                    <div id="history-upload-preview-section" style="display: none; margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h4 style="color: var(--text-primary);">Data Preview (First 5 Rows)</h4>
+                            <div style="display: flex; gap: 1rem;">
+                                <span style="color: var(--status-safe); font-weight: 500;">Valid: <span id="history-valid-count">0</span></span>
+                                <span style="color: var(--status-alert); font-weight: 500;">Invalid: <span id="history-invalid-count">0</span></span>
+                            </div>
+                        </div>
+                        
+                        <div id="history-errors-container" style="display: none; max-height: 150px; overflow-y: auto; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem; margin-bottom: 1.5rem;">
+                            <ul id="history-errors-list" style="color: var(--status-alert); margin-left: 1.5rem; font-size: 0.85rem;"></ul>
+                        </div>
+                        
+                        <div class="table-container" style="margin-bottom: 1.5rem;">
+                            <table class="data-table" id="history-preview-table">
+                                <thead>
+                                    <tr>
+                                        <th>Project Code</th>
+                                        <th>Month</th>
+                                        <th>Progress</th>
+                                        <th>Expenditure</th>
+                                        <th>Ext. (Months)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history-preview-table-body">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                            <button class="btn-primary" id="btn-history-upload-cancel" style="background: var(--text-secondary);">Cancel</button>
+                            <button class="btn-primary" id="btn-history-upload-confirm" style="background: var(--status-safe);">Confirm Import</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="table-section" style="margin-top: 2rem;">
+                <div class="section-header">
+                    <h3>Import History</h3>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Filename</th>
+                                <th>Records</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table-body">
+                            <tr>
+                                <td colspan="4" style="text-align: center; padding: 2rem;">No history found.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

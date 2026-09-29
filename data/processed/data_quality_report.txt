@@ -1,0 +1,133 @@
+=== Data Quality Validation Report ===
+Total rows: 1940
+Unique project codes extracted: 1731
+Number of project codes appearing more than once: 209
+Total rows belonging to repeated project codes: 418
+Exact duplicate full rows (excluding first occurrence): 0
+Rows with missing values: 0
+Rows with physical progress outside 0-100: 0
+Revised Cost Status - Genuine Zeros: 1940, Missing: 0, Valid Nonzero: 0, Unparseable: 0
+Rows with unparseable numeric values: 0
+
+=== Records Grouped by Source Page ===
+Page 44: 20 records
+Page 45: 24 records
+Page 46: 17 records
+Page 47: 17 records
+Page 48: 17 records
+Page 49: 19 records
+Page 50: 18 records
+Page 51: 17 records
+Page 52: 18 records
+Page 53: 17 records
+Page 54: 18 records
+Page 55: 7 records
+Page 57: 19 records
+Page 58: 20 records
+Page 59: 23 records
+Page 60: 22 records
+Page 61: 23 records
+Page 62: 23 records
+Page 63: 20 records
+Page 64: 22 records
+Page 65: 19 records
+Page 66: 19 records
+Page 67: 19 records
+Page 68: 17 records
+Page 69: 17 records
+Page 70: 21 records
+Page 71: 19 records
+Page 72: 19 records
+Page 73: 18 records
+Page 74: 21 records
+Page 75: 22 records
+Page 76: 21 records
+Page 77: 22 records
+Page 78: 22 records
+Page 79: 21 records
+Page 80: 19 records
+Page 81: 20 records
+Page 82: 21 records
+Page 83: 21 records
+Page 84: 22 records
+Page 85: 22 records
+Page 86: 22 records
+Page 87: 22 records
+Page 88: 22 records
+Page 89: 18 records
+Page 90: 17 records
+Page 91: 17 records
+Page 92: 19 records
+Page 93: 17 records
+Page 94: 15 records
+Page 95: 15 records
+Page 96: 15 records
+Page 97: 17 records
+Page 98: 16 records
+Page 99: 19 records
+Page 100: 16 records
+Page 101: 17 records
+Page 102: 18 records
+Page 103: 18 records
+Page 104: 18 records
+Page 105: 17 records
+Page 106: 13 records
+Page 107: 16 records
+Page 108: 18 records
+Page 109: 17 records
+Page 110: 14 records
+Page 111: 18 records
+Page 112: 20 records
+Page 113: 21 records
+Page 114: 15 records
+Page 115: 18 records
+Page 116: 19 records
+Page 117: 16 records
+Page 118: 14 records
+Page 119: 17 records
+Page 120: 19 records
+Page 121: 18 records
+Page 122: 15 records
+Page 123: 16 records
+Page 124: 14 records
+Page 125: 16 records
+Page 126: 18 records
+Page 127: 19 records
+Page 128: 20 records
+Page 129: 14 records
+Page 130: 16 records
+Page 131: 18 records
+Page 132: 17 records
+Page 133: 16 records
+Page 134: 17 records
+Page 135: 17 records
+Page 136: 19 records
+Page 137: 16 records
+Page 138: 17 records
+Page 139: 15 records
+Page 140: 17 records
+Page 141: 17 records
+Page 142: 16 records
+Page 143: 18 records
+Page 144: 18 records
+Page 145: 15 records
+Page 146: 14 records
+Page 147: 15 records
+Page 148: 13 records
+Page 149: 20 records
+Page 150: 19 records
+Page 151: 23 records
+Page 152: 4 records
+
+=== Analysis of Repeated Project Codes ===
+Analyzing differences across records for the 209 repeated project codes...
+
+Number of repeated project codes with varying fields:
+ - project_details: 209 codes have differing values
+ - state: 16 codes have differing values
+ - serial_number: 209 codes have differing values
+ - approval_dates: 0 codes have differing values
+ - completion_dates: 0 codes have differing values
+ - cost_values: 0 codes have differing values
+ - expenditure: 0 codes have differing values
+ - physical_progress: 0 codes have differing values
